@@ -59,13 +59,13 @@ with h5py.File(paths['truth'], 'r') as tf:
             onlyGuess = onlyGuess.union(set(gstack[justgin]))
             print str(100*stacki/allstacks[0])+'%'
 
-    FP = set().union(onlyGuess)
+    FP = set()
     FN = groundTruth.difference(TP)
 
     for n in onlyGuess:
-        if n in match:
-            found = {match[n]}
-            FP = FP.difference(found)
+        if n not in match:
+            found = set([match[n]])
+            FP = FP.union(found)
 
 with open(os.path.join(paths['o'],'out.csv'), 'wb') as csvfile:
      cw = csv.writer(csvfile, delimiter=' ',quotechar='\'', quoting=csv.QUOTE_MINIMAL)
@@ -74,7 +74,7 @@ with open(os.path.join(paths['o'],'out.csv'), 'wb') as csvfile:
 
 with open(os.path.join(paths['o'],'extra.csv'), 'wb') as csvfile:
      cw = csv.writer(csvfile, delimiter=',',quotechar='\'', quoting=csv.QUOTE_MINIMAL)
-     cw.writerow(['ID','Z','X','Y'])
+     cw.writerow(['ID','Z','Y','X'])
      for extra in list(FP):
          xyz = np.unravel_index(where[extra][1],allstacks[1:])
          cw.writerow(list((extra,where[extra][0])+xyz))
