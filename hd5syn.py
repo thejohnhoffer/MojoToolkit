@@ -36,8 +36,7 @@ with h5py.File(paths['truth'], 'r') as tf:
         guess = gf[gf.keys()[0]]
 
         allstacks += truth.shape
-        # for stacki in range(allstacks):
-        for stacki in range(10):
+        for stacki in range(allstacks[0]):
             tstack = truth[stacki,:,:].flatten()
             gstack = guess[stacki,:,:].flatten()
 
