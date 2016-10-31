@@ -64,12 +64,12 @@ with h5py.File(paths['truth'], 'r') as tf:
 
     for n in onlyGuess:
         if n not in match:
-            FP = FP.union(set([n]))
+            FP = FP.union({n})
 
 with open(os.path.join(paths['o'],'out.csv'), 'wb') as csvfile:
      cw = csv.writer(csvfile, delimiter=' ',quotechar='\'', quoting=csv.QUOTE_MINIMAL)
-     cw.writerow(['True_Positives','False_Positives','False_Negatives'])
-     cw.writerow([len(TP),len(FP),len(FN)])
+     cw.writerow(['GT_Total','True_Positives','False_Positives','False_Negatives'])
+     cw.writerow([len(groundTruth),len(TP),len(FP),len(FN)])
 
 with open(os.path.join(paths['o'],'extra.csv'), 'wb') as csvfile:
      cw = csv.writer(csvfile, delimiter=',',quotechar='\'', quoting=csv.QUOTE_MINIMAL)
