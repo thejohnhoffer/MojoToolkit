@@ -26,7 +26,7 @@ parser.add_argument('guess', default = 'guess.h5', nargs='?', help=help['guess']
 parser.add_argument('-o' ,metavar='path', default = 'out', help=help['out'])
 parser.add_argument('-d' ,metavar='path', default = '', help=help['home'])
 args = vars(parser.parse_args())
-for key in ['truth','guess']:
+for key in ['truth','guess','o']:
     h5path = os.path.join(args['d'],args[key])
     paths[key] = os.path.realpath(os.path.expanduser(h5path))
 
@@ -68,12 +68,12 @@ with h5py.File(paths['truth'], 'r') as tf:
             found = {match[n]}
             FP = FP.difference(found)
 
-with open('out.csv', 'wb') as csvfile:
+with open(os.path.join(paths['o'],'out.csv'), 'wb') as csvfile:
      cw = csv.writer(csvfile, delimiter=' ',quotechar='\'', quoting=csv.QUOTE_MINIMAL)
      cw.writerow(['True_Positives','False_Positives','False_Negatives'])
      cw.writerow([len(TP),len(FP),len(FN)])
 
-with open('extra.csv', 'wb') as csvfile:
+with open(os.path.join(paths['o'],'extra.csv'), 'wb') as csvfile:
      cw = csv.writer(csvfile, delimiter=' ',quotechar='\'', quoting=csv.QUOTE_MINIMAL)
      cw.writerow(['ID','X','Y','Z'])
      for extra in list(FP):
