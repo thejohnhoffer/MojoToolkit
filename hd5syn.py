@@ -73,8 +73,8 @@ with open(os.path.join(paths['o'],'out.csv'), 'wb') as csvfile:
      cw.writerow([len(TP),len(FP),len(FN)])
 
 with open(os.path.join(paths['o'],'extra.csv'), 'wb') as csvfile:
-     cw = csv.writer(csvfile, delimiter=' ',quotechar='\'', quoting=csv.QUOTE_MINIMAL)
-     cw.writerow(['ID','X','Y','Z'])
+     cw = csv.writer(csvfile, delimiter=',',quotechar='\'', quoting=csv.QUOTE_MINIMAL)
+     cw.writerow(['ID','Z','X','Y'])
      for extra in list(FP):
          xyz = np.unravel_index(where[extra][1],allstacks[1:])
          cw.writerow(list((extra,where[extra][0])+xyz))
