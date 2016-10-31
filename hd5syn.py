@@ -64,7 +64,7 @@ with h5py.File(paths['truth'], 'r') as tf:
 
     for n in onlyGuess:
         if n not in match:
-            FP = FP.union(n)
+            FP = FP.union(set([n]))
 
 with open(os.path.join(paths['o'],'out.csv'), 'wb') as csvfile:
      cw = csv.writer(csvfile, delimiter=' ',quotechar='\'', quoting=csv.QUOTE_MINIMAL)
