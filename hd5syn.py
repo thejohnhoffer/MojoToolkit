@@ -14,9 +14,10 @@ help = {
 }
 paths = {}
 match = {}
-where = {}
 areas = {}
 overlaps = {}
+whereTrue = {}
+whereGuess = {}
 onlyGuess = set()
 groundTruth = set()
 allstacks = tuple()
@@ -77,14 +78,15 @@ with h5py.File(paths['truth'], 'r') as tf:
                     overlaps[tb] = {}
                     overlaps[tb][gb] = 1
 
-
             for b in justgin:
-                # Save the position of
-                where[gstack[b]] = [stacki,b]
+                # Save the position of those only in Guess
+                whereGuess[gstack[b]] = [stacki,b]
 
             for b in alltin:
                 # True ID value
                 tb = tstack[b]
+                # Save the position of those in True data
+                whereTrue[tb] = [stacki,b]
                 # Count any voxel in ID
                 if tb in areas:
                     areas[tb] += 1
@@ -119,5 +121,12 @@ with open(os.path.join(paths['o'],'extraTenthMax.csv'), 'wb') as csvfile:
      cw = csv.writer(csvfile, delimiter=',',quotechar='\'', quoting=csv.QUOTE_MINIMAL)
      cw.writerow(['ID','Z','Y','X'])
      for extra in list(FP):
-         xyz = np.unravel_index(where[extra][1],allstacks[1:])
-         cw.writerow(list((extra,where[extra][0])+xyz))
+         xyz = np.unravel_index(whereGuess[extra][1],allstacks[1:])
+         cw.writerow(list((extra,whereGuess[extra][0])+xyz))
+
+with open(os.path.join(paths['o'],'foundTenthMax.csv'), 'wb') as csvfile:
+     cw = csv.writer(csvfile, delimiter=',',quotechar='\'', quoting=csv.QUOTE_MINIMAL)
+     cw.writerow(['ID','Z','Y','X'])
+     for found in list(TP):
+         xyz = np.unravel_index(whereTrue[found][1],allstacks[1:])
+         cw.writerow(list((found,whereTrue[found][0])+xyz))
