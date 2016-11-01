@@ -69,7 +69,7 @@ with h5py.File(paths['truth'], 'r') as tf:
                 # Count overlap with ID
                 if tb in overlaps:
                     # Count overlaps per guess
-                    if gb in overlaps:
+                    if gb in overlaps[tb]:
                         overlaps[tb][gb] += 1
                     else:
                         overlaps[tb][gb] = 1
