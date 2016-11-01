@@ -36,6 +36,6 @@ with h5py.File(paths['mask'], 'r') as mf:
         with h5py.File(outfile, 'w') as gof:
             written = gof.create_dataset("main", mask.shape, dtype=getattr(np,args['t']))
             for depth in range(mask.shape[0]):
-                written[depth,:,:] = given[depth,:,:]*mask[depth,:,:]
+                written[depth,:,:] = given[depth,:,:]*(mask[depth,:,:] > 127).astype(np.uint8)
                 print str(100*depth/mask.shape[0])+'%'
 
