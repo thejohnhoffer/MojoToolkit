@@ -62,13 +62,21 @@ with h5py.File(paths['truth'], 'r') as tf:
             for b in bothin:
                 # True ID value
                 tb = tstack[b]
-                # Link guess ID to true ID
-                match[gstack[b]] = tb
+                # Guess value
+                gb = gstack[b]
+                # Link guess to true ID
+                match[gb] = tb
                 # Count overlap with ID
                 if tb in overlaps:
-                    overlaps[tb] += 1
+                    # Count overlaps per guess
+                    if gb in overlaps:
+                        overlaps[tb][gb] += 1
+                    else:
+                        overlaps[tb][gb] = 1
                 else:
-                    overlaps[tb] = 1
+                    overlaps[tb] = {}
+                    overlaps[tb][gb] = 1
+
 
             for b in justgin:
                 # Save the position of
@@ -92,7 +100,8 @@ with h5py.File(paths['truth'], 'r') as tf:
     FP = set()
 
     for tid in pixelOverlap:
-        if 10*overlaps[tid] >= areas[tid]:
+        maxover = max(overlaps[tid].values())
+        if 10*maxover >= areas[tid]:
             TP = TP.union({tid})
 
     FN = groundTruth.difference(TP)
@@ -101,12 +110,12 @@ with h5py.File(paths['truth'], 'r') as tf:
         if n not in match:
             FP = FP.union({n})
 
-with open(os.path.join(paths['o'],'outTenth.csv'), 'wb') as csvfile:
+with open(os.path.join(paths['o'],'outTenthMax.csv'), 'wb') as csvfile:
      cw = csv.writer(csvfile, delimiter=' ',quotechar='\'', quoting=csv.QUOTE_MINIMAL)
      cw.writerow(['GT_Total','True_Positives','False_Positives','False_Negatives'])
      cw.writerow([len(groundTruth),len(TP),len(FP),len(FN)])
 
-with open(os.path.join(paths['o'],'extraTenth.csv'), 'wb') as csvfile:
+with open(os.path.join(paths['o'],'extraTenthMax.csv'), 'wb') as csvfile:
      cw = csv.writer(csvfile, delimiter=',',quotechar='\'', quoting=csv.QUOTE_MINIMAL)
      cw.writerow(['ID','Z','Y','X'])
      for extra in list(FP):
