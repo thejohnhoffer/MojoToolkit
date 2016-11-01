@@ -22,6 +22,7 @@ groundTruth = set()
 allstacks = tuple()
 pixelOverlap = set()
 
+# Arguement Parsing
 parser = argparse.ArgumentParser(description=help['hd5syn'])
 parser.add_argument('truth', default = 'truth.h5', nargs='?', help= help['truth'])
 parser.add_argument('guess', default = 'guess.h5', nargs='?', help=help['guess'])
@@ -32,37 +33,51 @@ for key in ['truth','guess','o']:
     h5path = os.path.join(args['d'],args[key])
     paths[key] = os.path.realpath(os.path.expanduser(h5path))
 
+# Open Ground Truth and Predictions
 with h5py.File(paths['truth'], 'r') as tf:
     truth = tf[tf.keys()[0]]
     with h5py.File(paths['guess'], 'r') as gf:
         guess = gf[gf.keys()[0]]
 
+        # Go through every slice
         allstacks += truth.shape
         for stacki in range(allstacks[0]):
             tstack = truth[stacki,:,:].flatten()
             gstack = guess[stacki,:,:].flatten()
 
+            #tnot: Not in true data
             tnot = np.logical_not(tstack)
+            #tygy: In true data and guess data
             tygy = np.logical_and(tstack,gstack)
+            #tngy: In guess data, but not true data
             tngy = np.logical_and(tnot,gstack)
 
+            # All pixels in both images
             bothin = np.nonzero(tygy)[0]
+            # All pixels in just the guess
             justgin = np.nonzero(tngy)[0]
+            # All pixels in true data
             alltin = np.nonzero(tstack)[0]
 
             for b in bothin:
+                # True ID value
                 tb = tstack[b]
+                # Link guess ID to true ID
+                match[gstack[b]] = tb
+                # Count overlap with ID
                 if tb in overlaps:
                     overlaps[tb] += 1
                 else:
                     overlaps[tb] = 1
-                match[gstack[b]] = tb
 
             for b in justgin:
+                # Save the position of
                 where[gstack[b]] = [stacki,b]
 
             for b in alltin:
+                # True ID value
                 tb = tstack[b]
+                # Count any voxel in ID
                 if tb in areas:
                     areas[tb] += 1
                 else:
@@ -79,7 +94,6 @@ with h5py.File(paths['truth'], 'r') as tf:
     for tid in pixelOverlap:
         if 10*overlaps[tid] >= areas[tid]:
             TP = TP.union({tid})
-
 
     FN = groundTruth.difference(TP)
 
