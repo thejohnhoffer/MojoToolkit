@@ -85,8 +85,7 @@ with h5py.File(paths['truth'], 'r') as tf:
 
     for n in onlyGuess:
         if n not in match:
-            if match[n] not in TP:
-                FP = FP.union({n})
+            FP = FP.union({n})
 
 with open(os.path.join(paths['o'],'outTenth.csv'), 'wb') as csvfile:
      cw = csv.writer(csvfile, delimiter=' ',quotechar='\'', quoting=csv.QUOTE_MINIMAL)
