@@ -10,6 +10,7 @@ help = {
     'given': 'input h5 to mask (default given.h5)',
     'home': 'parent directory of files (default none)',
     'out': 'output directory of files (default masked)',
+    'type': 'datatype for output file (default uint32)',
     'hd5mask': 'Mask hdf5 files'
 }
 paths = {}
@@ -18,6 +19,7 @@ paths = {}
 parser = argparse.ArgumentParser(description=help['hd5mask'])
 parser.add_argument('given', default = 'given.h5', nargs='?', help= help['given'])
 parser.add_argument('mask', default = 'mask.h5', nargs='?', help=help['mask'])
+parser.add_argument('-t' ,metavar='path', default = 'uint32', help=help['type'])
 parser.add_argument('-o' ,metavar='path', default = 'mask', help=help['out'])
 parser.add_argument('-d' ,metavar='path', default = '', help=help['home'])
 args = vars(parser.parse_args())
@@ -32,7 +34,7 @@ with h5py.File(paths['mask'], 'r') as mf:
     with h5py.File(paths['given'], 'r') as gf:
         given = gf[gf.keys()[0]]
         with h5py.File(outfile, 'w') as gof:
-            written = gof.create_dataset("main", mask.shape, dtype=np.uint32)
+            written = gof.create_dataset("main", mask.shape, dtype=getattr(np,args['t']))
             for depth in range(mask.shape[0]):
                 written[depth,:,:] = given[depth,:,:]*mask[depth,:,:]
                 print str(100*depth/mask.shape[0])+'%'

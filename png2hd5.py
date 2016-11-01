@@ -11,6 +11,7 @@ help = {
     'out': 'output h5 filename (default out.h5)',
     'dep': 'How many separators from start of name until depth (default 0)',
     'format': 'Little Endian channel order as rgba,bgr (default none)',
+    'type': 'datatype for output file (default uint32)',
     'sep': 'separator for filenames (default _)',
     'png2hd5': 'Stack all pngs into one h5 file!'
 }
@@ -25,6 +26,7 @@ rgba = {
 parser = argparse.ArgumentParser(description=help['png2hd5'])
 parser.add_argument('-s' ,metavar='char', default = '_', help=help['sep'])
 parser.add_argument('-d', metavar='int', type=int, default = 0, help=help['dep'])
+parser.add_argument('-t' ,metavar='path', default = 'uint32', help=help['type'])
 parser.add_argument('-f', metavar='string', default = '', help=help['format'])
 parser.add_argument('pngs', default = 'pngs', nargs='?', help= help['pngs'])
 parser.add_argument('out', default = 'out.h5', nargs='?', help=help['out'])
@@ -39,7 +41,7 @@ for f in glob.glob( paths['pngs'] + '/*.png'):
 with h5py.File(paths['out'], 'w') as hf:
     imageFiles = sorted(stack)
     shape = (len(imageFiles),) + cv2.imread(imageFiles[0],0).shape
-    written = hf.create_dataset("main", shape, dtype=np.uint32)
+    written = hf.create_dataset("main", shape, dtype=getattr(np,args['t']))
     for depth,file in enumerate(imageFiles):
         if not format:
             written[depth,:,:] = cv2.imread(file,0)
