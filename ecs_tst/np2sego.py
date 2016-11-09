@@ -23,7 +23,7 @@ class Sego:
         self.output_segment_info_db_file   = output_ids_path + os.sep + 'segmentInfo.db'
 
         self.id_max               = 0
-        self.id_counts            = np.zeros( 0, dtype=np.int64 )
+        self.id_counts            = np.array([0], dtype=np.int64 )
         self.id_tile_list         = []
 
         # Make a color map

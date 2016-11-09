@@ -21,18 +21,17 @@ def convert(in_folder, out_folder):
         group = f[f.keys()[0]]
         shape = group.shape
 
-        # Do labels
         if fil.find('image')>0:
-	    image = Imgo(out_folder)
+	    imout = Imgo(out_folder)
 	    for zi in range(shape[0]):
-		#image.run(group[zi,:,:],zi)
+		imout.run(group[zi,:,:],zi)
+	    imout.save(shape)
 
-        # Do image
         if fil.find('segmentation')>0:
-		segmentation = Sego(out_folder)
-		print('shape: '+shape[0])
-		for zi in range(shape[0]):
-			segmentation.run(group[zi,:,:],zi)
+	    segmentation = Sego(out_folder)
+	    for zi in range(shape[0]):
+                segmentation.run(group[zi,:,:],zi)
+	    segmentation.save(shape)
 
         f.close()
 
