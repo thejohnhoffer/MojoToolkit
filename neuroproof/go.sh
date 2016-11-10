@@ -1,4 +1,0 @@
-sh hd5syn.sh 8192 15616 1105
-sh hd5syn.sh 10240 15616 1017
-sh hd5syn.sh 10240 17664 1105
-sh hd5syn.sh 12288 15616 1105
