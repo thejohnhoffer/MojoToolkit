@@ -7,13 +7,13 @@ import argparse
 import numpy as np
 
 help = {
-    'pngs': 'input folder with all pngs (default pngs)',
+    'png2hd5': 'Stack all pngs into one h5 file!',
     'out': 'output h5 filename (default out.h5)',
-    'dep': 'How many separators from start of name until depth (default 0)',
-    'format': 'Little Endian channel order as rgba,bgr (default none)',
-    'type': 'datatype for output file (default uint32)',
     'sep': 'separator for filenames (default _)',
-    'png2hd5': 'Stack all pngs into one h5 file!'
+    'type': 'datatype for output file (default uint32)',
+    'pngs': 'input folder with all pngs (default pngs)',
+    'format': 'Little Endian channel order as rgba,bgr (default none)',
+    'dep': 'How many separators from start of name until depth (default 0)'
 }
 paths = {}
 stack = {}
