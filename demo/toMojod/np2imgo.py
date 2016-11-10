@@ -22,12 +22,14 @@ class Imgo:
         padshape = tuple(2 ** p for p in logs)
         if len(shape) > 2:
             return (shape[0],)+padshape[1:]
-        return padshape;
+        return padshape
 
     def run(self,input_image,tile_index_z):
-        
-        pad_shape = self.round(input_image.shape)
+
+        in_shape = input_image.shape
+        pad_shape = self.round(in_shape)
         original_image = np.zeros(pad_shape,dtype = input_image.dtype)
+        original_image[:in_shape[0],:in_shape[1]] = input_image
          
         ( original_image_num_pixels_x, original_image_num_pixels_y ) = original_image.shape
 

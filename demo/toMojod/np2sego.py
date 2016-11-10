@@ -37,35 +37,38 @@ class Sego:
         padshape = tuple(2 ** p for p in logs)
         if len(shape) > 2:
             return (shape[0],)+padshape[1:]
-        return padshape;
+        return padshape
 
     def run(self,input_ids,tile_index_z):
-        
-        pad_shape = self.round(input_ids.shape)
+
+        in_shape = input_ids.shape
+        pad_shape = self.round(in_shape)
         original_ids = np.zeros(pad_shape,dtype = input_ids.dtype)
+        original_ids[:in_shape[0],:in_shape[1]] = input_ids
+
         (original_ids_num_pixels_x, original_ids_num_pixels_y) = original_ids.shape
 
         ## Grow regions until there are no boundaries
 
-        current_image_counts = np.bincount( original_ids.ravel() )
-        current_image_counts_ids = np.nonzero( current_image_counts )[0]
-        current_max = np.max( current_image_counts_ids )
+        current_ids_counts = np.bincount( original_ids.ravel() )
+        current_ids_counts_ids = np.nonzero( current_ids_counts )[0]
+        current_max = np.max( current_ids_counts_ids )
         self.tile_index_z = tile_index_z
 
         if self.id_max  < current_max:
             self.id_max  = current_max
             self.id_counts.resize( self.id_max  + 1 )
 
-        self.id_counts[ current_image_counts_ids ] = self.id_counts[ current_image_counts_ids ] + np.int64( current_image_counts [ current_image_counts_ids ] )
+        self.id_counts[ current_ids_counts_ids ] = self.id_counts[ current_ids_counts_ids ] + np.int64( current_ids_counts [ current_ids_counts_ids ] )
 
-        current_image_num_pixels_y = original_ids_num_pixels_y
-        current_image_num_pixels_x = original_ids_num_pixels_x
+        current_ids_num_pixels_y = original_ids_num_pixels_y
+        current_ids_num_pixels_x = original_ids_num_pixels_x
         current_tile_data_space_y  = self.tile_num_pixels_y
         current_tile_data_space_x  = self.tile_num_pixels_x
         self.tile_index_w          = 0
         ids_stride                 = 1
 
-        while current_image_num_pixels_y > self.tile_num_pixels_y / 2 or current_image_num_pixels_x > self.tile_num_pixels_x / 2:
+        while current_ids_num_pixels_y > self.tile_num_pixels_y / 2 or current_ids_num_pixels_x > self.tile_num_pixels_x / 2:
 
             current_tile_ids_path    = self.output_tile_ids_path     + os.sep + 'w=' + '%08d' % ( self.tile_index_w ) + os.sep + 'z=' + '%08d' % ( self.tile_index_z )
 
@@ -73,8 +76,8 @@ class Sego:
 
             current_ids = original_ids[ ::ids_stride, ::ids_stride ]
 
-            num_tiles_y = int( math.ceil( float( current_image_num_pixels_y ) / self.tile_num_pixels_y ) )
-            num_tiles_x = int( math.ceil( float( current_image_num_pixels_x ) / self.tile_num_pixels_x ) )
+            num_tiles_y = int( math.ceil( float( current_ids_num_pixels_y ) / self.tile_num_pixels_y ) )
+            num_tiles_x = int( math.ceil( float( current_ids_num_pixels_x ) / self.tile_num_pixels_x ) )
 
             for tile_index_y in range( num_tiles_y ):
                 for tile_index_x in range( num_tiles_x ):
@@ -93,8 +96,8 @@ class Sego:
 
                         self.id_tile_list.append( (unique_tile_id, self.tile_index_w, self.tile_index_z, tile_index_y, tile_index_x ) )
 
-            current_image_num_pixels_y = current_image_num_pixels_y / 2
-            current_image_num_pixels_x = current_image_num_pixels_x / 2
+            current_ids_num_pixels_y = current_ids_num_pixels_y / 2
+            current_ids_num_pixels_x = current_ids_num_pixels_x / 2
             current_tile_data_space_y  = current_tile_data_space_y  * 2
             current_tile_data_space_x  = current_tile_data_space_x  * 2
             self.tile_index_w          = self.tile_index_w          + 1
