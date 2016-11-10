@@ -70,5 +70,5 @@ for zi, file in enumerate(stack):
     outfile.run(written,zi) 
 
 # Write metadata to ouput file
-outfile.save(shape[::-1])
+outfile.save(shape)
 

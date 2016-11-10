@@ -29,7 +29,7 @@ with h5py.File(paths['hd5'],'r') as hi:
     group = hi[hi.keys()[0]]
     shape = group.shape
     dtype = group.dtype
-
+    
     outfile = Imgo(paths['out'])
     if dtype is not np.uint8:
         outfile = Sego(paths['out'])
@@ -38,5 +38,4 @@ with h5py.File(paths['hd5'],'r') as hi:
         outfile.run(group[zi, :, :], zi)
     
     # Write as image or segmentation
-    outfile.save(shape[::-1])
-
+    outfile.save(shape)
