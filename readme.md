@@ -4,14 +4,14 @@ If you want to use RhoANA's proofreading tool Dojo, you'll need data arranged in
 
    | mojo out | hd5 out
    --- | --- | ---
-pngs in | png2mojo.py | png2hd.py
-hd5 in | hd2mojo.py | ...
+**pngs in** | png2mojo.py | png2hd.py
+**hd5 in** | hd2mojo.py | ...
 
 ## All the parameters
 
 **Before you convert to mojo, make sure you have an output folder called 'mojo'**
 
-* When converting from hdf5 to mojo, you use `./hd2mojo.py `[hd5]` [out]`
+* When converting from hdf5 to mojo, you use `./hd2mojo.py [hd5] [out]`
     * `[hd5]` gives the path to one hdf5 file
     * `[out]` gives the path to the mojo folder
     * remember:
@@ -20,10 +20,10 @@ hd5 in | hd2mojo.py | ...
         * Any other dtype is assumed to be segmented images of id values
 
 * When converting from pngs:
-    * to mojo, you use `./png2mojo.py `[pngs]` [out]`
+    * to mojo, you use `./png2mojo.py [pngs] [out]`
         * `[pngs]` gives the path containing png files
         * `[out]` gives the path to the mojo folder
-    * to hdf5, you use `./png2hd.py `[pngs]` [out]`
+    * to hdf5, you use `./png2hd.py [pngs] [out]`
         * `[pngs]` gives the path containing png files
         * `[out]` gives the full output path/name.hf5:
     * remember:
