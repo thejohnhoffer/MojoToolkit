@@ -12,9 +12,9 @@ If you want to use RhoANA's proofreading tool Dojo, you'll need data arranged in
 Assuming you have python and pip installed:
 
 ```
-https://github.com/thejohnhoffer/tools.git
-sudo ./tools/install
-cd tools
+git clone https://github.com/Rhoana/MojoToolkit.git
+sudo ./MojoToolkit/install
+cd MojoToolkit
 ```
 
 If you don't have python or pip installed,
@@ -22,10 +22,10 @@ First [get and install python.](https://wiki.python.org/moin/BeginnersGuide/Down
 Then run:
 
 ```
-https://github.com/thejohnhoffer/tools.git
-sudo ./tools/setup/get-pip.py
-sudo ./tools/install
-cd tools
+git clone https://github.com/Rhoana/MojoToolkit.git
+sudo ./MojoToolkit/setup/get-pip.py
+sudo ./MojoToolkit/install
+cd MojoToolkit
 ```
 
 You can then run all three python scripts from the tools directory.
