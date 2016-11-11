@@ -35,6 +35,7 @@ hd5 in | hd2mojo.py | ...
 
 The resulting mojo folders have the following structure:
 
+```
 * mojo
     * ids
         * tiles
@@ -63,6 +64,7 @@ The resulting mojo folders have the following structure:
                 * ...
                 * z=ZZZZZZZZ
         * tiledVolumeDescription.xml
+```
 
 where:
 
