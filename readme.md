@@ -17,8 +17,8 @@ sudo ./tools/install
 cd tools
 ```
 
-If you don't have python or pip installed
-First [get and install python](https://wiki.python.org/moin/BeginnersGuide/Download)
+If you don't have python or pip installed,
+First [get and install python.](https://wiki.python.org/moin/BeginnersGuide/Download)
 Then run:
 
 ```
