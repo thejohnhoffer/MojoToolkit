@@ -30,7 +30,7 @@ cd tools
 
 You can then run all three python scripts from the tools directory.
 
-## All the parameters
+## All three functions and the parameters
 
 **Before you convert to mojo, make sure you have an output folder called 'mojo'**
 
