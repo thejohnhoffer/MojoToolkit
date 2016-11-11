@@ -7,6 +7,29 @@ If you want to use RhoANA's proofreading tool Dojo, you'll need data arranged in
 **pngs in** | png2mojo.py | png2hd.py
 **hd5 in** | hd2mojo.py | ...
 
+## Installing dependencies
+
+Assuming you have python and pip installed:
+
+```
+https://github.com/thejohnhoffer/tools.git
+sudo ./tools/install
+cd tools
+```
+
+If you don't have python or pip installed
+First [get and install python](https://wiki.python.org/moin/BeginnersGuide/Download)
+Then run:
+
+```
+https://github.com/thejohnhoffer/tools.git
+sudo ./tools/setup/get-pip.py
+sudo ./tools/install
+cd tools
+```
+
+You can then run all three python scripts from the tools directory.
+
 ## All the parameters
 
 **Before you convert to mojo, make sure you have an output folder called 'mojo'**
