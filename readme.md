@@ -11,21 +11,21 @@ hd5 in | hd2mojo.py | ...
 
 **Before you convert to mojo, make sure you have an output folder called 'mojo'**
 
-* When converting from hdf5 to mojo, you use `./hd2mojo.py [hd5] [out]`
-    * [hd5] gives the path to one hdf5 file
-    * [out] gives the path to the mojo folder
+* When converting from hdf5 to mojo, you use `./hd2mojo.py `[hd5]` [out]`
+    * `[hd5]` gives the path to one hdf5 file
+    * `[out]` gives the path to the mojo folder
     * remember:
         * The first group in the hd5 file is used
         * Use hd5 groups of dtype `uint8` for raw images
         * Any other dtype is assumed to be segmented images of id values
 
 * When converting from pngs:
-    * to mojo, you use `./png2mojo.py [pngs] [out]`
-        * [pngs] gives the path containing png files
-        * [out] gives the path to the mojo folder
-    * to hdf5, you use `./png2hd.py [pngs] [out]`
-        * [pngs] gives the path containing png files
-        * [out] gives the full output path/name.hf5:
+    * to mojo, you use `./png2mojo.py `[pngs]` [out]`
+        * `[pngs]` gives the path containing png files
+        * `[out]` gives the path to the mojo folder
+    * to hdf5, you use `./png2hd.py `[pngs]` [out]`
+        * `[pngs]` gives the path containing png files
+        * `[out]` gives the full output path/name.hf5:
     * remember:
         * Each png name differs only by a number indicating z-layer
         * Pass `-c` to either function for segmented images of id values
